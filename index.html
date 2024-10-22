@@ -12,13 +12,11 @@
 <body>
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="hiro">
-            <!-- Video element will be displayed when the marker is detected -->
             <a-video id="myVideo" src="#videoSrc" width="2" height="1.5" position="0 0 0" rotation="-90 0 0"></a-video>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- Replace with your actual video URL -->
     <video id="videoSrc" src="https://<your-project-name>.vercel.app/video.mp4" preload="auto"></video>
 
     <script>
