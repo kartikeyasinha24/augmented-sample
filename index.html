@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AR Video Player</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/AR.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+        <!-- Marker to detect -->
+        <a-marker preset="hiro">
+            <!-- Video element -->
+            <a-video src="https://drive.google.com/file/d/19R1SBqitJ8ePGW7kJ8rKwS7QUYhGWXBe/view?usp=drive_link" width="1" height="1" position="0 0 0" rotation="-90 0 0"></a-video>
+        </a-marker>
+        <!-- Camera -->
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>
