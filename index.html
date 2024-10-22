@@ -1,39 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AR Video Experience</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Video Overlay</title>
     <style>
-        body { margin: 0; }
-        video { display: none; } /* Hide the video element */
+        /* Styles for the video feed and overlay */
+        #videoContainer {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        video, canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        video#overlay {
+            width: 30%; /* Adjust the size of the video overlay */
+            height: auto;
+            display: none; /* Hide the video overlay initially */
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+        }
     </style>
 </head>
 <body>
-    <a-scene embedded arjs='sourceType: webcam;'>
-        <a-marker preset="hiro">
-            <a-video id="myVideo" src="#videoSrc" width="2" height="1.5" position="0 0 0" rotation="-90 0 0"></a-video>
-        </a-marker>
-        <a-entity camera></a-entity>
-    </a-scene>
-
-    <video id="videoSrc" src="https://<your-project-name>.vercel.app/video.mp4" preload="auto"></video>
-
+    <div id="videoContainer">
+        <!-- Video element for the camera feed -->
+        <video id="cameraFeed" autoplay playsinline></video>
+        <!-- Video element for the overlay -->
+        <video id="overlay" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
     <script>
-        const video = document.getElementById('videoSrc');
+        // JavaScript to access the camera and handle video playback
 
-        // Play video when marker is found
-        document.querySelector('a-marker').addEventListener('markerFound', () => {
-            console.log('Marker found, playing video');
-            video.currentTime = 0; // Reset to the beginning
-            video.play(); // Start playing the video
+        // Accessing the camera feed
+        const cameraFeed = document.getElementById('cameraFeed');
+        const videoOverlay = document.getElementById('overlay');
+        const videoSource = document.getElementById('videoSource');
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                cameraFeed.srcObject = stream; // Set the camera feed to the video element
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        startCamera(); // Call the function to start the camera
+
+        // Listen for visibility change to manage camera feed
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                startCamera(); // Restart camera if the tab becomes visible
+            } else {
+                cameraFeed.srcObject.getTracks().forEach(track => track.stop()); // Stop camera if the tab is not visible
+            }
         });
 
-        // Pause video when marker is lost
-        document.querySelector('a-marker').addEventListener('markerLost', () => {
-            console.log('Marker lost, pausing video');
-            video.pause(); // Pause the video
-        });
+        // Mock function to simulate QR code detection
+        function onQRCodeScanned(videoUrl) {
+            videoSource.src = videoUrl; // Set the video source to the scanned URL
+            videoOverlay.style.display = 'block'; // Show the video overlay
+            videoOverlay.play(); // Start playing the video
+        }
+
+        // Simulate QR code detection (for testing)
+        setTimeout(() => {
+            onQRCodeScanned('your-video.mp4'); // Replace with the actual video URL scanned
+        }, 5000); // Simulate after 5 seconds for testing
     </script>
 </body>
 </html>
