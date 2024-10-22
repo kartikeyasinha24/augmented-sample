@@ -6,11 +6,25 @@
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
         body { margin: 0; }
+        a-scene { height: 100vh; } /* Ensures the scene fills the viewport */
     </style>
 </head>
-<body style="margin: 0; overflow: hidden;">
+<body>
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('AR.js is initializing...');
+            const scene = document.querySelector('a-scene');
+            scene.addEventListener('loaded', () => {
+                console.log('Scene loaded');
+            });
+            scene.addEventListener('error', (event) => {
+                console.error('Error:', event.detail);
+            });
+        });
+    </script>
 </body>
 </html>
