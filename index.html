@@ -17,20 +17,21 @@
         <a-entity camera></a-entity>
     </a-scene>
 
-    <video id="myVideo" src="https://drive.google.com/uc?id=19R1SBqitJ8ePGW7kJ8rKwS7QUYhGWXBe" preload="auto"></video>
+    <!-- Test video from a public source -->
+    <video id="myVideo" src="https://www.w3schools.com/html/mov_bbb.mp4" preload="auto"></video>
 
     <script>
         const video = document.getElementById('myVideo');
 
-        // Event listener for when the marker is found
+        // Play video when marker is found
         document.querySelector('a-marker').addEventListener('markerFound', () => {
-            video.currentTime = 0; // Reset video to the beginning
-            video.play(); // Play the video
+            video.currentTime = 0; // Reset to the beginning
+            video.play(); // Start playing the video
         });
 
-        // Event listener for when the marker is lost
+        // Pause video when marker is lost
         document.querySelector('a-marker').addEventListener('markerLost', () => {
-            video.pause(); // Pause the video
+            video.pause();
         });
     </script>
 </body>
