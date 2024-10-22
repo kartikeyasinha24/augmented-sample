@@ -12,11 +12,13 @@
 <body>
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="hiro">
-            <a-video id="myVideo" src="#videoSrc" width="4" height="3" position="0 0 0" rotation="-90 0 0"></a-video>
+            <!-- Video element will be displayed when the marker is detected -->
+            <a-video id="myVideo" src="#videoSrc" width="2" height="1.5" position="0 0 0" rotation="-90 0 0"></a-video>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
+    <!-- Replace with your actual video URL -->
     <video id="videoSrc" src="https://<your-project-name>.vercel.app/video.mp4" preload="auto"></video>
 
     <script>
@@ -24,12 +26,14 @@
 
         // Play video when marker is found
         document.querySelector('a-marker').addEventListener('markerFound', () => {
+            console.log('Marker found, playing video');
             video.currentTime = 0; // Reset to the beginning
             video.play(); // Start playing the video
         });
 
         // Pause video when marker is lost
         document.querySelector('a-marker').addEventListener('markerLost', () => {
+            console.log('Marker lost, pausing video');
             video.pause(); // Pause the video
         });
     </script>
