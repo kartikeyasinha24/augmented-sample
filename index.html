@@ -1,37 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AR Video Experience</title>
+    <title>AR Camera Feed</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
         body { margin: 0; }
-        video { display: none; }
     </style>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs='sourceType: webcam;'>
-        <a-marker preset="hiro">
-            <a-video src="#myVideo" width="4" height="3" position="0 0 0" rotation="-90 0 0"></a-video>
-        </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
-
-    <video id="myVideo" src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" preload="auto"></video>
-
-    <script>
-        const video = document.getElementById('myVideo');
-
-        // Play video when marker is found
-        document.querySelector('a-marker').addEventListener('markerFound', () => {
-            video.currentTime = 0; // Reset to the beginning
-            video.play(); // Start playing the video
-        });
-
-        // Pause video when marker is lost
-        document.querySelector('a-marker').addEventListener('markerLost', () => {
-            video.pause();
-        });
-    </script>
 </body>
 </html>
