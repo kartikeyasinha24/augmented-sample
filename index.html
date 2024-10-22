@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AR Camera Feed</title>
+    <title>AR Video Experience</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
         body { margin: 0; }
-        a-scene { height: 100vh; } /* Ensures the scene fills the viewport */
+        video { display: none; } /* Hide the video element */
     </style>
 </head>
 <body>
     <a-scene embedded arjs='sourceType: webcam;'>
+        <a-marker preset="hiro">
+            <!-- Adjust the width and height to make it smaller -->
+            <a-video id="myVideo" src="#videoSrc" width="2" height="1.5" position="0 0 0" rotation="-90 0 0"></a-video>
+        </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
+    <video id="videoSrc" src="https://<your-project-name>.vercel.app/video.mp4" preload="auto"></video>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('AR.js is initializing...');
-            const scene = document.querySelector('a-scene');
-            scene.addEventListener('loaded', () => {
-                console.log('Scene loaded');
-            });
-            scene.addEventListener('error', (event) => {
-                console.error('Error:', event.detail);
-            });
+        const video = document.getElementById('videoSrc');
+
+        // Play video when marker is found
+        document.querySelector('a-marker').addEventListener('markerFound', () => {
+            video.currentTime = 0; // Reset to the beginning
+            video.play(); // Start playing the video
+        });
+
+        // Pause video when marker is lost
+        document.querySelector('a-marker').addEventListener('markerLost', () => {
+            video.pause(); // Pause the video
         });
     </script>
 </body>
