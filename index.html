@@ -23,12 +23,15 @@
         <!-- Define the marker -->
         <a-marker preset="hiro">
             <!-- Video will be played in the fixed position -->
-            <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" width="2" height="1.125" position="0 0 0" autoplay="true" rotation="0 0 0" scale="0.5 0.5 0.5"></a-video>
+            <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" 
+                     width="1" height="0.75" 
+                     position="0 0 0" 
+                     autoplay="true" 
+                     loop="true" 
+                     rotation="0 0 0">
+            </a-video>
         </a-marker>
         <a-entity camera></a-entity>
-        
-        <!-- Fixed position video entity -->
-        <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" width="2" height="1.125" position="0 1.5 -3" autoplay="true" rotation="0 0 0" scale="0.5 0.5 0.5" visible="true"></a-video>
     </a-scene>
 </body>
 </html>
