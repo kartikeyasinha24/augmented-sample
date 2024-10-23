@@ -19,7 +19,7 @@
             width: 100%;
             height: 100%;
         }
-        video#myVideo {
+        iframe#vimeoPlayer {
             width: 25%; /* Set the size of the mini-player */
             height: auto; /* Maintain aspect ratio */
             display: none; /* Hide the video overlay initially */
@@ -36,15 +36,13 @@
     <div id="videoContainer">
         <!-- Video element for the camera feed -->
         <video id="cameraFeed" autoplay playsinline></video>
-        <!-- Video element for the mini-player -->
-        <video id="myVideo" src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" autoplay muted playsinline controls style="display: none;">
-            Your browser does not support the video tag.
-        </video>
+        <!-- Vimeo iframe player for the mini-player -->
+        <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/177477830" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
     </div>
     <script>
         // Accessing the camera feed
         const cameraFeed = document.getElementById('cameraFeed');
-        const myVideo = document.getElementById('myVideo');
+        const vimeoPlayer = document.getElementById('vimeoPlayer');
 
         async function startCamera() {
             try {
@@ -67,16 +65,14 @@
         });
 
         // Mock function to simulate QR code detection
-        function onQRCodeScanned(videoUrl) {
-            myVideo.src = videoUrl; // Set the video source to the scanned URL
-            myVideo.style.display = 'block'; // Show the mini-player
-            myVideo.play(); // Start playing the video
+        function onQRCodeScanned() {
+            vimeoPlayer.style.display = 'block'; // Show the Vimeo player
         }
 
         // Simulate QR code detection (for testing)
         setTimeout(() => {
-            onQRCodeScanned('https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4'); // Use the correct video URL
-        }, 5000); // Simulate after 5 seconds for testing
+            onQRCodeScanned(); // Show Vimeo video after 5 seconds for testing
+        }, 5000);
     </script>
 </body>
 </html>
