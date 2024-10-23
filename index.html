@@ -22,15 +22,15 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <!-- Use your custom marker here -->
         <a-marker type='pattern' url='https://augmented-sample.vercel.app/pattern-qrcode-new.patt'>
-            <a-entity position="0 0 0" rotation="0 0 0"> <!-- Parent entity to control rotation -->
-                <!-- Video will play when the custom marker is detected -->
-                <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" 
-                         width="2" height="1.125" 
-                         autoplay="true" 
-                         loop="true" 
-                         scale="1 1 1"> <!-- Set scale as needed -->
-                </a-video>
-            </a-entity>
+            <!-- Video element directly within the marker -->
+            <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" 
+                     width="2" height="1.125" 
+                     position="0 0 0" 
+                     autoplay="true" 
+                     loop="true" 
+                     rotation="0 0 0"  <!-- Fixed rotation to prevent any rotation -->
+                     scale="1 1 1"> <!-- Adjust scale if needed -->
+            </a-video>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
