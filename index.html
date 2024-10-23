@@ -19,7 +19,7 @@
             width: 100%;
             height: 100%;
         }
-        video#overlay {
+        video#myVideo {
             width: 30%; /* Adjust the size of the video overlay */
             height: auto;
             display: none; /* Hide the video overlay initially */
@@ -34,8 +34,7 @@
         <!-- Video element for the camera feed -->
         <video id="cameraFeed" autoplay playsinline></video>
         <!-- Video element for the overlay -->
-        <video id="overlay" controls>
-            <source id="videoSource" src="" type="video/mp4">
+        <video id="myVideo" src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" autoplay muted playsinline controls style="display: none;">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -44,8 +43,7 @@
 
         // Accessing the camera feed
         const cameraFeed = document.getElementById('cameraFeed');
-        const videoOverlay = document.getElementById('overlay');
-        const videoSource = document.getElementById('videoSource');
+        const myVideo = document.getElementById('myVideo');
 
         async function startCamera() {
             try {
@@ -69,9 +67,9 @@
 
         // Mock function to simulate QR code detection
         function onQRCodeScanned(videoUrl) {
-            videoSource.src = videoUrl; // Set the video source to the scanned URL
-            videoOverlay.style.display = 'block'; // Show the video overlay
-            videoOverlay.play(); // Start playing the video
+            myVideo.src = videoUrl; // Set the video source to the scanned URL
+            myVideo.style.display = 'block'; // Show the video overlay
+            myVideo.play(); // Start playing the video
         }
 
         // Simulate QR code detection (for testing)
