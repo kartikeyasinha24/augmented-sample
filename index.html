@@ -1,82 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Video Overlay</title>
+    <title>AR Video Overlay</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
     <style>
-        /* Styles for the video feed and overlay */
-        #videoContainer {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
-        video, canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        video#myVideo {
-            width: 25%; /* Set the size of the mini-player */
-            height: auto; /* Maintain aspect ratio */
-            display: none; /* Hide the video overlay initially */
-            position: absolute;
-            top: 50%; /* Vertically center the video */
-            left: 50%; /* Horizontally center the video */
-            transform: translate(-50%, -50%); /* Center the video exactly */
-            border-radius: 15px; /* Optional: Add rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for better visibility */
-        }
+      #container {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+      }
     </style>
-</head>
-<body>
-    <div id="videoContainer">
-        <!-- Video element for the camera feed -->
-        <video id="cameraFeed" autoplay playsinline></video>
-        <!-- Video element for the mini-player -->
-        <video id="myVideo" src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" autoplay muted playsinline controls style="display: none;">
-            Your browser does not support the video tag.
-        </video>
+  </head>
+  <body>
+    <div id="container">
+      <!-- A-Frame Scene for AR -->
+      <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+        <!-- Marker for detecting the QR code (or custom marker) -->
+        <a-marker preset="custom" type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode.patt">
+          <!-- Video element as an AR object -->
+          <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" width="2" height="1" position="0 0 0"></a-video>
+        </a-marker>
+
+        <!-- AR.js camera -->
+        <a-entity camera></a-entity>
+      </a-scene>
     </div>
-    <script>
-        // Accessing the camera feed
-        const cameraFeed = document.getElementById('cameraFeed');
-        const myVideo = document.getElementById('myVideo');
-
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                cameraFeed.srcObject = stream; // Set the camera feed to the video element
-            } catch (error) {
-                console.error('Error accessing the camera:', error);
-            }
-        }
-
-        startCamera(); // Call the function to start the camera
-
-        // Listen for visibility change to manage camera feed
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') {
-                startCamera(); // Restart camera if the tab becomes visible
-            } else {
-                cameraFeed.srcObject.getTracks().forEach(track => track.stop()); // Stop camera if the tab is not visible
-            }
-        });
-
-        // Mock function to simulate QR code detection
-        function onQRCodeScanned(videoUrl) {
-            myVideo.src = videoUrl; // Set the video source to the scanned URL
-            myVideo.style.display = 'block'; // Show the mini-player
-            myVideo.play(); // Start playing the video
-        }
-
-        // Simulate QR code detection (for testing)
-        setTimeout(() => {
-            onQRCodeScanned('https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4'); // Use the correct video URL
-        }, 5000); // Simulate after 5 seconds for testing
-    </script>
-</body>
+  </body>
 </html>
