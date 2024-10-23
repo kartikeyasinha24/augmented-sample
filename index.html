@@ -25,7 +25,7 @@
         <a-marker type='pattern' url='https://augmented-sample.vercel.app/pattern-qrcode-new.patt' emitevents='true' id="marker">
             <!-- Video element directly within the marker -->
             <a-video src="https://augmented-sample.vercel.app/VID-20241022-WA0001.mp4" 
-                     width="2" height="1.125" 
+                     width="3" height="1.6875"  <!-- Adjusted size -->
                      position="0 0 0" 
                      autoplay="true" 
                      loop="true" 
@@ -45,11 +45,13 @@
         // Listen for the marker to be detected
         marker.addEventListener('markerFound', () => {
             video.setAttribute('visible', 'true'); // Show the video
+            video.play(); // Ensure video playback starts
         });
 
         // Listen for the marker to be lost
         marker.addEventListener('markerLost', () => {
             video.setAttribute('visible', 'false'); // Hide the video
+            video.pause(); // Pause video playback
         });
     </script>
 </body>
