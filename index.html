@@ -20,12 +20,14 @@
             height: 100%;
         }
         video#myVideo {
-            width: 30%; /* Adjust the size of the video overlay */
-            height: auto;
+            width: 40%; /* Adjust the size of the video overlay */
+            height: auto; /* Maintain aspect ratio */
             display: none; /* Hide the video overlay initially */
             position: absolute;
-            bottom: 10%;
-            right: 10%;
+            bottom: 5%; /* Adjust the vertical position */
+            right: 5%; /* Adjust the horizontal position */
+            border-radius: 15px; /* Optional: Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for better visibility */
         }
     </style>
 </head>
@@ -39,8 +41,6 @@
         </video>
     </div>
     <script>
-        // JavaScript to access the camera and handle video playback
-
         // Accessing the camera feed
         const cameraFeed = document.getElementById('cameraFeed');
         const myVideo = document.getElementById('myVideo');
