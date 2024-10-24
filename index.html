@@ -24,10 +24,10 @@
         <a-marker type='pattern' url='https://augmented-sample.vercel.app/pattern-qrcode-new.patt' emitevents='true' id="marker">
             <a-video id="videoElement" src="https://augmented-sample.vercel.app/videoplayback.mp4" 
                      width="5" height="3.6875" 
-                     position="0 0.1 0"  <!-- Adjusting slightly up -->
+                     position="0 0 0"  <!-- Centered on marker -->
                      autoplay="true" 
                      loop="true" 
-                     rotation="-90 0 0" 
+                     rotation="-90 0 0"  <!-- This may need further adjustment -->
                      scale="1 1 1" 
                      visible="false"> <!-- Start as hidden -->
             </a-video>
@@ -36,30 +36,39 @@
     </a-scene>
 
     <script>
+        // Function to update the video size dynamically based on screen size
         function updateVideoSize() {
             const video = document.getElementById('videoElement');
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
 
-            const videoWidth = screenWidth * 0.5;  
+            // Calculate appropriate aspect ratio (16:9) sizes based on screen size
+            const videoWidth = screenWidth * 0.5;  // Adjust the multiplier to scale size
             const videoHeight = (9 / 16) * videoWidth;
 
-            video.setAttribute('width', videoWidth / 100);  
-            video.setAttribute('height', videoHeight / 100); 
+            // Update the video attributes
+            video.setAttribute('width', videoWidth / 100);  // Adjust to match AR scale
+            video.setAttribute('height', videoHeight / 100); // Adjust to match AR scale
         }
 
+        // Call updateVideoSize when the page loads
         window.onload = updateVideoSize;
+
+        // Update the size if the window is resized
         window.addEventListener('resize', updateVideoSize);
 
+        // Get the marker and video elements
         const marker = document.getElementById('marker');
         const video = marker.querySelector('a-video');
 
+        // Listen for the marker to be detected
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             video.setAttribute('visible', 'true'); // Show the video
             video.play(); // Ensure video playback starts
         });
 
+        // Listen for the marker to be lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
             video.setAttribute('visible', 'false'); // Hide the video
