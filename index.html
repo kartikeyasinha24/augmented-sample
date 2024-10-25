@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-scale=no">
     <title>AR Video Playback Below Marker</title>
     <style>
         body {
@@ -25,8 +25,8 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane Positioned Beside the Marker -->
-            <a-plane id="videoPlane" position="1 0 -1" rotation="-90 0 0" width="1.5" height="1" visible="false"></a-plane>
+            <!-- Video Plane Positioned Below the Marker -->
+            <a-plane id="videoPlane" position="0 -1.75 0" rotation="-90 0 0" width="1.5" height="1" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -53,7 +53,12 @@
             video.play(); // Start the video once the marker is found
         });
 
-        // Remove the markerLost event listener to prevent pausing the video
+        // Hide video plane when marker is lost
+        marker.addEventListener('markerLost', () => {
+            console.log('Marker lost');
+            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
+            video.pause(); // Pause the video
+        });
     </script>
 </body>
 </html>
