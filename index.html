@@ -25,8 +25,8 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="2" height="1.5" visible="false"></a-plane>
+            <!-- Video Plane Positioned Beside the Marker -->
+            <a-plane id="videoPlane" position="1 0 -1" rotation="-90 0 0" width="1.5" height="1" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -46,18 +46,14 @@
             console.log('Video texture loaded');
         });
 
-        // Event listeners for marker detection
+        // Event listener for marker detection
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the video plane
-            video.play(); // Play the video
+            video.play(); // Start the video once the marker is found
         });
 
-        marker.addEventListener('markerLost', () => {
-            console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
-            video.pause(); // Pause the video
-        });
+        // Remove the markerLost event listener to prevent pausing the video
     </script>
 </body>
 </html>
