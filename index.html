@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>AR Video Playback with Custom Marker</title>
+    <title>AR Video Playback Above Marker</title>
     <style>
         body {
             margin: 0;
@@ -25,13 +25,16 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Placeholder plane inside marker; will detach after detection -->
-            <a-plane id="videoPlane" position="0 0 0" rotation="-90 0 0" width="2" height="2.6875" visible="false"></a-plane>
+            <!-- Invisible Marker Plane -->
+            <a-plane id="markerPlane" color="transparent" width="2" height="2.6875" rotation="-90 0 0"></a-plane>
+            <!-- Video Plane Positioned Above the Marker -->
+            <a-plane id="videoPlane" position="0 0.1 0" rotation="-90 0 0" width="2" height="2.6875" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
+        // Select video element and video plane
         const video = document.getElementById('video');
         const marker = document.getElementById('marker');
         const videoPlane = document.getElementById('videoPlane');
@@ -44,20 +47,17 @@
             videoPlane.setAttribute('material', { src: videoTexture });
         });
 
+        // Event listeners for marker detection
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the plane
-            video.play(); // Start the video playback
-
-            // Move videoPlane to a fixed position away from the marker
-            videoPlane.setAttribute('position', '0 1.5 -3'); // Example position
-            videoPlane.setAttribute('rotation', '0 0 0'); // Adjust if needed
+            video.play(); // Play the video
         });
 
-        // Keep the video playing even if the marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'true'); // Keep the plane visible
+            videoPlane.setAttribute('visible', 'false'); // Hide the plane
+            video.pause(); // Pause the video
         });
     </script>
 </body>
