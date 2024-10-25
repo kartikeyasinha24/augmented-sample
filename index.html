@@ -39,7 +39,6 @@
 
         // Create a texture from the video and apply it to the plane
         video.addEventListener('loadeddata', () => {
-            // Create a new VideoTexture
             const videoTexture = new AFRAME.THREE.VideoTexture(video);
             videoTexture.minFilter = AFRAME.THREE.LinearFilter;
             videoTexture.magFilter = AFRAME.THREE.LinearFilter;
@@ -47,8 +46,8 @@
             // Set the video texture to the plane material
             videoPlane.setAttribute('material', {
                 src: videoTexture,
-                transparent: true, // Ensure transparency is handled
-                shader: 'flat' // Ensure the shader is flat for correct rendering
+                transparent: true,
+                shader: 'flat'
             });
             console.log('Video texture loaded');
         });
@@ -60,11 +59,10 @@
             video.play(); // Start the video once the marker is found
         });
 
-        // Hide video plane when marker is lost
+        // Continue playing video even when marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
-            video.pause(); // Pause the video
+            // Video remains playing and visible
         });
     </script>
 </body>
