@@ -25,10 +25,10 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Invisible Marker Plane -->
-            <a-plane id="markerPlane" color="transparent" width="2" height="2.6875" rotation="-90 0 0"></a-plane>
-            <!-- Smaller Video Plane Positioned Above the Marker -->
-            <a-plane id="videoPlane" position="0 1 0" rotation="-90 0 0" width="1.5" height="1" visible="false"></a-plane>
+            <!-- Marker Plane (Visible, but beneath video) -->
+            <a-plane id="markerPlane" color="black" width="2" height="2.6875" rotation="-90 0 0"></a-plane>
+            <!-- Video Plane Positioned Above the Marker in the Z-axis -->
+            <a-plane id="videoPlane" position="0 0 0.1" rotation="-90 0 0" width="1.5" height="2" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
