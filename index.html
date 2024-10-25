@@ -59,10 +59,10 @@
             video.play(); // Start the video once the marker is found
         });
 
-        // Continue playing video even when marker is lost
+        // Maintain video visibility even when the marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            // Video remains playing and visible
+            // Do not hide the video plane; it remains visible and continues playing
         });
     </script>
 </body>
