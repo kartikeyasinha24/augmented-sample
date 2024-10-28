@@ -23,15 +23,16 @@
     <!-- Hidden Video Element -->
     <video id="video" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous" style="display:none;"></video>
 
-    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
-        <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-_latest.patt" emitevents="true" id="marker">
+    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
+        <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
             <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
+            <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="2" height="1" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
+        // Select video element and video plane
         const video = document.getElementById('video');
         const marker = document.getElementById('marker');
         const videoPlane = document.getElementById('videoPlane');
@@ -51,18 +52,17 @@
             console.log('Video texture loaded');
         });
 
-        // Show and play video when marker is detected
+        // Event listener for marker detection
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the video plane
             video.play(); // Start the video once the marker is found
         });
 
-        // Hide and pause video when marker is lost
+        // Maintain video visibility even when the marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
-            video.pause(); // Pause the video
+            // Do not hide the video plane; it remains visible and continues playing
         });
     </script>
 </body>
