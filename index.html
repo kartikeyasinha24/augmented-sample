@@ -31,7 +31,7 @@
     <!-- Video Overlay Element -->
     <video id="videoOverlay" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous"></video>
 
-    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;">
+    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
             <!-- No need for video plane here since we are using a fixed overlay -->
         </a-marker>
