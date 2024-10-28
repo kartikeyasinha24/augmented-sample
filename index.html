@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>3D AR Video Playback Below Marker</title>
+    <title>3D AR Video Playback Fixed Position</title>
     <style>
         body {
             margin: 0;
@@ -15,54 +15,45 @@
             height: 100vh;
             position: absolute;
         }
+        #videoOverlay {
+            position: fixed;
+            bottom: 10px; /* Position at the bottom of the screen */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px; /* Adjust width as needed */
+            display: none; /* Hidden until marker is detected */
+        }
     </style>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
-    <!-- Hidden Video Element -->
-    <video id="video" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous" style="display:none;"></video>
+    <!-- Video Overlay Element -->
+    <video id="videoOverlay" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous"></video>
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
+            <!-- No need for video plane here since we are using a fixed overlay -->
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-        const video = document.getElementById('video');
+        const videoOverlay = document.getElementById('videoOverlay');
         const marker = document.getElementById('marker');
-        const videoPlane = document.getElementById('videoPlane');
 
-        // Create a texture from the video and apply it to the plane
-        video.addEventListener('loadeddata', () => {
-            const videoTexture = new AFRAME.THREE.VideoTexture(video);
-            videoTexture.minFilter = AFRAME.THREE.LinearFilter;
-            videoTexture.magFilter = AFRAME.THREE.LinearFilter;
-
-            // Set the video texture to the plane material
-            videoPlane.setAttribute('material', {
-                src: videoTexture,
-                transparent: true,
-                shader: 'flat'
-            });
-            console.log('Video texture loaded');
-        });
-
-        // Show and play video when marker is detected
+        // Show video and play when marker is detected
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
-            videoPlane.setAttribute('visible', 'true'); // Show the video plane
-            video.play(); // Start the video once the marker is found
+            videoOverlay.style.display = 'block';
+            videoOverlay.play();
         });
 
-        // Hide and pause video when marker is lost
+        // Hide video and pause when marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
-            video.pause(); // Pause the video
+            videoOverlay.style.display = 'none';
+            videoOverlay.pause();
         });
     </script>
 </body>
