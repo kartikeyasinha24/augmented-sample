@@ -43,12 +43,15 @@
             videoTexture.minFilter = AFRAME.THREE.LinearFilter;
             videoTexture.magFilter = AFRAME.THREE.LinearFilter;
 
+            // Ensure the video plane is visible when texture is applied
             videoPlane.setAttribute('material', {
                 src: videoTexture,
                 transparent: true,
                 shader: 'flat'
             });
-            console.log('Video texture loaded');
+
+            videoPlane.setAttribute('visible', 'true'); // Ensure it's visible after the video loads
+            console.log('Video texture loaded and plane set to visible');
         });
 
         // Show and play video when marker is detected
