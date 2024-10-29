@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>AR Video Playback at Fixed Position</title>
+    <title>AR Video Playback Below Marker</title>
     <style>
         body {
             margin: 0;
@@ -25,9 +25,10 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane at a Fixed Position -->
-            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
+            <!-- Marker element -->
         </a-marker>
+        <!-- Video Plane Positioned at a Fixed Distance Below the Marker -->
+        <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
         <a-entity camera></a-entity>
     </a-scene>
 
