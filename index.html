@@ -24,9 +24,9 @@
     <video id="video" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous" style="display:none;"></video>
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
-        <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
+        <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-lion.patt" emitevents="true" id="marker">
             <!-- Video Plane positioned below the marker -->
-            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
+            <a-plane id="videoPlane" position="0 0 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
