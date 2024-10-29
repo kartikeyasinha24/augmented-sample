@@ -27,7 +27,7 @@
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
             <!-- Marker element -->
         </a-marker>
-        <!-- Video Plane Positioned at a Fixed Distance Below the Marker -->
+        <!-- Video Plane Positioned Below the Marker -->
         <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
         <a-entity camera></a-entity>
     </a-scene>
@@ -43,29 +43,36 @@
             videoTexture.minFilter = AFRAME.THREE.LinearFilter;
             videoTexture.magFilter = AFRAME.THREE.LinearFilter;
 
-            // Ensure the video plane is visible when texture is applied
+            // Set the material on the plane
             videoPlane.setAttribute('material', {
                 src: videoTexture,
                 transparent: true,
                 shader: 'flat'
             });
 
-            videoPlane.setAttribute('visible', 'true'); // Ensure it's visible after the video loads
+            // Ensure the plane is visible if the marker is found
+            marker.addEventListener('markerFound', () => {
+                console.log('Marker found');
+                videoPlane.setAttribute('visible', 'true'); // Show the video plane
+                video.play(); // Start video playback
+            });
+
+            marker.addEventListener('markerLost', () => {
+                console.log('Marker lost');
+                videoPlane.setAttribute('visible', 'false'); // Hide the video plane
+                video.pause(); // Pause video playback
+            });
+
             console.log('Video texture loaded and plane set to visible');
         });
 
-        // Show and play video when marker is detected
-        marker.addEventListener('markerFound', () => {
-            console.log('Marker found');
-            videoPlane.setAttribute('visible', 'true'); // Show the video plane
-            video.play(); // Start video playback
-        });
+        // Initial visibility
+        videoPlane.setAttribute('visible', 'false'); // Ensure the video plane is hidden initially
 
-        // Hide and pause video when marker is lost
-        marker.addEventListener('markerLost', () => {
-            console.log('Marker lost');
-            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
-            video.pause(); // Pause video playback
+        // Update the video plane's position based on the marker's position
+        marker.addEventListener('markerFound', () => {
+            // Update video plane position relative to the marker
+            videoPlane.object3D.position.set(0, -1.5, 0); // Adjust the position to below the marker
         });
     </script>
 </body>
