@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-scalable=no">
     <title>AR Video Playback Below Marker</title>
     <style>
         body {
@@ -25,8 +25,8 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -7.5 0" rotation="-90 0 0" width="2" height="1.5" visible="false"></a-plane>
+            <!-- Video Plane positioned below the marker -->
+            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -55,6 +55,16 @@
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the video plane
             video.play(); // Start video playback
+
+            // Dynamically position the video below the marker
+            const markerPosition = new THREE.Vector3();
+            const markerRotation = new THREE.Euler();
+            marker.object3D.getWorldPosition(markerPosition);
+            marker.object3D.getWorldDirection(markerRotation);
+            
+            // Set the video position below the marker
+            videoPlane.object3D.position.set(markerPosition.x, markerPosition.y - 1, markerPosition.z);
+            videoPlane.object3D.rotation.set(-Math.PI / 2, 0, 0); // Keep the video plane flat
         });
 
         // Marker lost: hide and pause video
