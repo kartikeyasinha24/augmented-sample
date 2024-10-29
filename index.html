@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>AR Video Playback Below Marker</title>
+    <title>AR Video Playback at Fixed Position</title>
     <style>
         body {
             margin: 0;
@@ -25,8 +25,8 @@
 
     <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
-            <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="2" height="1.5" visible="false"></a-plane>
+            <!-- Video Plane at a Fixed Position -->
+            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="3" height="2" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -50,14 +50,14 @@
             console.log('Video texture loaded');
         });
 
-        // Marker found: show and play video
+        // Show and play video when marker is detected
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the video plane
             video.play(); // Start video playback
         });
 
-        // Marker lost: hide and pause video
+        // Hide and pause video when marker is lost
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
             videoPlane.setAttribute('visible', 'false'); // Hide the video plane
