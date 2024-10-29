@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>3D AR Video Playback Below Marker</title>
+    <title>AR Video Playback Below Marker</title>
     <style>
         body {
             margin: 0;
@@ -23,27 +23,25 @@
     <!-- Hidden Video Element -->
     <video id="video" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop crossorigin="anonymous" style="display:none;"></video>
 
-    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 };">
+    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-qrcode-new.patt" emitevents="true" id="marker">
             <!-- Video Plane Positioned Below the Marker -->
-            <a-plane id="videoPlane" position="0 -1.5 0" rotation="-90 0 0" width="3" height="1" visible="false"></a-plane>
+            <a-plane id="videoPlane" position="0 -1 0" rotation="-90 0 0" width="2" height="1.5" visible="false"></a-plane>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-        // Select video element and video plane
         const video = document.getElementById('video');
         const marker = document.getElementById('marker');
         const videoPlane = document.getElementById('videoPlane');
 
-        // Create a texture from the video and apply it to the plane
+        // Load video as a texture for the plane
         video.addEventListener('loadeddata', () => {
             const videoTexture = new AFRAME.THREE.VideoTexture(video);
             videoTexture.minFilter = AFRAME.THREE.LinearFilter;
             videoTexture.magFilter = AFRAME.THREE.LinearFilter;
 
-            // Set the video texture to the plane material
             videoPlane.setAttribute('material', {
                 src: videoTexture,
                 transparent: true,
@@ -52,17 +50,18 @@
             console.log('Video texture loaded');
         });
 
-        // Event listener for marker detection
+        // Marker found: show and play video
         marker.addEventListener('markerFound', () => {
             console.log('Marker found');
             videoPlane.setAttribute('visible', 'true'); // Show the video plane
-            video.play(); // Start the video once the marker is found
+            video.play(); // Start video playback
         });
 
-        // Maintain video visibility even when the marker is lost
+        // Marker lost: hide and pause video
         marker.addEventListener('markerLost', () => {
             console.log('Marker lost');
-            // Do not hide the video plane; it remains visible and continues playing
+            videoPlane.setAttribute('visible', 'false'); // Hide the video plane
+            video.pause(); // Pause video playback
         });
     </script>
 </body>
