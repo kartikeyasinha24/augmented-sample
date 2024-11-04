@@ -23,7 +23,7 @@
     <!-- Hidden Video Element -->
     <video id="video" src="https://augmented-sample.vercel.app/videoplayback.mp4" loop playsinline muted crossorigin="anonymous" style="display:none;"></video>
 
-    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+    <a-scene embedded arjs="sourceType: webcam; videoConstraints: { facingMode: 'environment', width: 1280, height: 720 }; smooth: true; debugUIEnabled: false;" vr-mode-ui="enabled: false">
         <a-marker type="pattern" url="https://augmented-sample.vercel.app/pattern-ladybug.patt" emitevents="true" id="marker">
             <!-- Video Plane Positioned Below the Marker -->
             <a-plane id="videoPlane" position="0 0 0" rotation="-90 0 0" width="1.9" height="1" visible="false"></a-plane>
